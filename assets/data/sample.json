@@ -1,0 +1,32 @@
+{
+    "ads" : [
+        {
+            "title" : "French Toast",
+            "image" : "https://d3gg7p8kl1yfy0.cloudfront.net/_1200x630_crop_center-center_82_none/detail_bb_French_Toast_wBerries_2-0004_2022.jpg?mtime=1641760780"
+        },
+        {
+            "title" : "Cinnamon Toast",
+            "image" : "https://d3gg7p8kl1yfy0.cloudfront.net/Recipe-Detail-CinFrenchToastBake-0019_2022.jpg"
+        
+        },
+        {
+            "title" : "Blueberry Muffins",
+            "image" : "https://d3gg7p8kl1yfy0.cloudfront.net/detail_Reduced_Sugar_Blueberry_Muffin_4-0017_2022.jpg"
+        
+        }
+
+    ],
+    "recipes" : [
+        {   
+            "id" : 1,
+            "meal_type" : "breakfast",
+            "title" : "test title",
+            "description" : "test description",
+            "image" : "network_image",
+            "rating" : 4,
+            "calories" : 100,
+            "prep_time" : 120,
+            "serving" : 2
+        }
+    ]
+}
