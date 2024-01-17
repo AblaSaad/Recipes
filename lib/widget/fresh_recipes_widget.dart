@@ -14,51 +14,67 @@ class FreshRecipes extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7),
+            Card(
+              elevation: 2,
               child: Container(
-                  width: 130,
-                  height: 210,
+                  width: 210,
                   decoration: BoxDecoration(
-                    color: Color(0xffF7F8FC),
+                    color: Color(0xffeeeeee),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 15, left: 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            alignment: Alignment.topRight,
-                            height: 110,
-                            child: Stack(children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 12, bottom: 10),
-                                  child:
-                                      const Icon(Icons.favorite_border_rounded),
-                                ),
+                          Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.favorite_outline,
+                                    color: Colors.grey.withOpacity(0.5),
+                                  ),
+                                  Transform.translate(
+                                    offset: Offset(20, 0),
+                                    child: Image.asset(
+                                      'assets/images/french_toast.png',
+                                      height: 140,
+                                      width: 170,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "Breakfast",
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xff128FAE)),
                               ),
-                              Align(
-                                  alignment: Alignment.topRight,
-                                  child: Image.asset(
-                                      'assets/images/frensh_toast.png')),
-                            ]),
+                            ],
                           ),
-                          Text(
-                            "Breakfast",
-                            style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xff128FAE)),
-                          ),
-                          Text(
-                            "French Toast with Berries",
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Fresh Toast With Barries',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
                             ),
                           ),
                           Row(
@@ -97,28 +113,28 @@ class FreshRecipes extends StatelessWidget {
                                 color: Color(0xffF55A00), fontSize: 10),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Icon(
                                 Icons.access_time_rounded,
-                                size: 10,
+                                size: 12,
                                 color: Colors.grey,
                               ),
                               Text(
                                 "10 mins",
                                 style: TextStyle(
-                                    fontSize: 8,
+                                    fontSize: 10,
                                     color: Colors.grey.withOpacity(0.6)),
                               ),
                               Icon(
                                 Icons.room_service_outlined,
-                                size: 12,
+                                size: 15,
                                 color: Colors.grey,
                               ),
                               Text(
                                 "1 Serving",
                                 style: TextStyle(
-                                    fontSize: 8,
+                                    fontSize: 10,
                                     color: Colors.grey.withOpacity(0.5)),
                               )
                             ],
@@ -127,7 +143,7 @@ class FreshRecipes extends StatelessWidget {
                       ))),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Container(
                   width: 130,
                   height: 210,
@@ -157,7 +173,7 @@ class FreshRecipes extends StatelessWidget {
                               Align(
                                   alignment: Alignment.topRight,
                                   child: Image.asset(
-                                      'assets/images/Cinnamon_Toaast.png')),
+                                      'assets/images/cinnamon_toast.png')),
                             ]),
                           ),
                           Text(

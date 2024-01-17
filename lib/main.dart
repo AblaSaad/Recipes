@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/firebase_options.dart';
 import 'package:recipes/pages/splash.page.dart';
 import 'package:recipes/provider/ad_provider.dart';
+import 'package:recipes/provider/app_auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 
@@ -12,6 +15,10 @@ void main() async {
 
     GetIt.I.registerSingleton<SharedPreferences>(preference);
 
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     // if (PrefrencesService.prefs != null) {
     //   print(
     //       '========================= prefrences init Successfully ========================');
@@ -20,12 +27,9 @@ void main() async {
     print(
         '=========================Error In init Prefrences ${e}========================');
   }
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AdProvider(),
-      child: MyApp(),
-    ),
-  );
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => AppAuthProvider())],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
