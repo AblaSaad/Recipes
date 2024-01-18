@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(Icons.person),
                       ),
                       validator: (value) {
-                        if (value != null || (value?.isEmpty ?? false)) {
+                        if (value == null || (value.isEmpty)) {
                           return 'Name Is Required';
                         }
                         return null;
@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(Icons.email_outlined),
                       ),
                       validator: (value) {
-                        if (value != null || (value?.isEmpty ?? false)) {
+                        if (value == null || (value.isEmpty)) {
                           return 'Email Is Required';
                         }
                         return null;
@@ -112,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 : Icons.visibility),
                           )),
                       validator: (value) {
-                        if (value != null || (value?.isEmpty ?? false)) {
+                        if (value == null || (value.isEmpty)) {
                           return 'Password Is Required';
                         }
                         return null;

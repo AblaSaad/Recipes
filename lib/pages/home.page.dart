@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:recipes/widget/fresh_recipes_widget.dart';
+import 'package:recipes/widget/recommended_recipes_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -141,6 +142,34 @@ class _HomePageState extends State<HomePage> {
                   height: 5,
                 ),
                 Align(alignment: Alignment.centerLeft, child: FreshRecipes()),
+
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text(
+                        "Recommended",
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        "See All",
+                        style: TextStyle(
+                          fontFamily: 'Hellix medium 14',
+                          color: Color(0xffF55A00),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: RecommendedRecippes()),
               ],
             ),
           ),

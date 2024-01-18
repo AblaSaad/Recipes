@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                         prefixIcon: Icon(Icons.email_outlined),
                       ),
                       validator: (value) {
-                        if (value != null || (value?.isEmpty ?? false)) {
+                        if (value == null || (value.isEmpty)) {
                           return 'Email Is Required';
                         }
                         return null;
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                                 : Icons.visibility),
                           )),
                       validator: (value) {
-                        if (value != null || (value?.isEmpty ?? false)) {
+                        if (value == null || (value.isEmpty)) {
                           return 'Password Is Required';
                         }
                         return null;

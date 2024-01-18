@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recipes/pages/home.page.dart';
 import 'package:recipes/pages/login.page.dart';
 import 'package:recipes/pages/register.page.dart';
 
@@ -44,19 +45,37 @@ class AppAuthProvider extends ChangeNotifier {
 
   Future<void> signUp(BuildContext context) async {
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController!.text,
-        password: passwordController!.text,
-      );
-    } on FirebaseAuthException catch (e) {
+      if (formKey?.currentState?.validate() ?? false) {
+        var credentials = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController!.text,
+                password: passwordController!.text);
+
+        if (credentials.user != null) {
+          await credentials.user?.updateDisplayName(nameController!.text);
+          providerDispose();
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => const HomePage()));
+        }
+      }
     } catch (e) {}
   }
 
   Future<void> signIn(BuildContext context) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController!.text, password: passwordController!.text);
-    } on FirebaseAuthException catch (e) {}
+      if (formKey?.currentState?.validate() ?? false) {
+        var credentials = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailController!.text,
+                password: passwordController!.text);
+
+        if (credentials.user != null) {
+          await credentials.user?.updateDisplayName(nameController!.text);
+          providerDispose();
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => const HomePage()));
+        }
+      }
+    } catch (e) {}
   }
 }
