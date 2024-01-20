@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_kit/overlay_kit.dart';
 import 'package:recipes/pages/home.page.dart';
 import 'package:recipes/pages/login.page.dart';
 import 'package:recipes/pages/register.page.dart';
+import '../utilis/toast_message_status.dart';
+import '../widget/toast_message.widget.dart';
 
 class AppAuthProvider extends ChangeNotifier {
-  late GlobalKey<FormState>? formKey;
-  late TextEditingController? emailController;
-  late TextEditingController? passwordController;
+  GlobalKey<FormState>? formKey;
+  TextEditingController? emailController;
+  TextEditingController? passwordController;
   TextEditingController? nameController;
-  bool obsecureText = false;
+  bool obsecureText = true;
 
   void providerInit() {
     formKey = GlobalKey<FormState>();
@@ -43,9 +46,71 @@ class AppAuthProvider extends ChangeNotifier {
         context, MaterialPageRoute(builder: (_) => const LoginPage()));
   }
 
+  Future<void> signIn(BuildContext context) async {
+    try {
+      if (formKey?.currentState?.validate() ?? false) {
+        OverlayLoadingProgress.start();
+        var credentials = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailController!.text,
+                password: passwordController!.text);
+
+        if (credentials.user != null) {
+          OverlayLoadingProgress.stop();
+          providerDispose();
+          OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+              message: 'You Login Successully',
+              toastMessageStatus: ToastMessageStatus.success,
+            ),
+          );
+
+          if (context.mounted) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => HomePage()));
+          }
+        }
+        OverlayLoadingProgress.stop();
+      }
+    } on FirebaseAuthException catch (e) {
+      OverlayLoadingProgress.stop();
+
+      if (e.code == 'user-not-found') {
+        OverlayToastMessage.show(
+          widget: const ToastMessageWidget(
+            message: 'user not found',
+            toastMessageStatus: ToastMessageStatus.failed,
+          ),
+        );
+      } else if (e.code == 'wrong-password') {
+        OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+          message: 'Wrong password provided for that user.',
+          toastMessageStatus: ToastMessageStatus.failed,
+        ));
+      } else if (e.code == "user-disabled") {
+        OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+          message: 'This email Account was disabled',
+          toastMessageStatus: ToastMessageStatus.failed,
+        ));
+      } else if (e.code == "invalid-credential") {
+        OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+          message: 'invalid-credential',
+          toastMessageStatus: ToastMessageStatus.failed,
+        ));
+      }
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+      OverlayToastMessage.show(textMessage: 'General Error $e');
+    }
+  }
+
   Future<void> signUp(BuildContext context) async {
     try {
       if (formKey?.currentState?.validate() ?? false) {
+        OverlayLoadingProgress.start();
         var credentials = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
                 email: emailController!.text,
@@ -53,29 +118,29 @@ class AppAuthProvider extends ChangeNotifier {
 
         if (credentials.user != null) {
           await credentials.user?.updateDisplayName(nameController!.text);
+          OverlayLoadingProgress.stop();
           providerDispose();
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const HomePage()));
+
+          if (context.mounted) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => HomePage()));
+          }
         }
+        OverlayLoadingProgress.stop();
       }
-    } catch (e) {}
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+    }
   }
 
-  Future<void> signIn(BuildContext context) async {
-    try {
-      if (formKey?.currentState?.validate() ?? false) {
-        var credentials = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: emailController!.text,
-                password: passwordController!.text);
-
-        if (credentials.user != null) {
-          await credentials.user?.updateDisplayName(nameController!.text);
-          providerDispose();
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const HomePage()));
-        }
-      }
-    } catch (e) {}
+  void signOut(BuildContext context) async {
+    OverlayLoadingProgress.start();
+    await Future.delayed(const Duration(seconds: 1));
+    await FirebaseAuth.instance.signOut();
+    if (context.mounted) {
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (_) => LoginPage()), (route) => false);
+    }
+    OverlayLoadingProgress.stop();
   }
 }

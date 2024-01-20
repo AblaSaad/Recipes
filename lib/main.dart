@@ -23,13 +23,12 @@ void main() async {
     //   print(
     //       '========================= prefrences init Successfully ========================');
     // }
-  } catch (e) {
-    print(
-        '=========================Error In init Prefrences ${e}========================');
-  }
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AppAuthProvider())],
-      child: const MyApp()));
+    // ignore: empty_catches
+  } catch (e) {}
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => AppAuthProvider()),
+    ChangeNotifierProvider(create: (_) => AdsProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,12 +42,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Hellix',
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xffF55A00),
-          primary: Color(0xffF55A00),
+          seedColor: const Color(0xffF55A00),
+          primary: const Color(0xffF55A00),
         ),
         useMaterial3: true,
       ),
-      home: SplashPage(),
+      home: const SplashPage(),
     );
   }
 }

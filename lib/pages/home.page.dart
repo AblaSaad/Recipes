@@ -1,8 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recipes/widget/fresh_recipes_widget.dart';
 import 'package:recipes/widget/recommended_recipes_widget.dart';
+
+import '../provider/app_auth_provider.dart';
+import '../widget/ads_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,17 +19,48 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.notifications),
-            )
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            const UserAccountsDrawerHeader(
+              accountName: Text("Abla Saad"),
+              accountEmail: Text("bella@gmail.com"),
+              currentAccountPicture: CircleAvatar(),
+            ),
+            ListTile(
+                leading: const Icon(Icons.home),
+                title: const Text("Home"),
+                onTap: () {}),
+            ListTile(
+                leading: const Icon(Icons.favorite_border_outlined),
+                title: const Text("Favourites"),
+                onTap: () {}),
+            ListTile(
+                leading: const Icon(Icons.shopping_cart),
+                title: const Text("Shopping"),
+                onTap: () {}),
+            ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text("Settings"),
+                onTap: () {}),
+            ListTile(
+                leading: const Icon(Icons.power_settings_new),
+                title: const Text("Logout"),
+                onTap: () {
+                  Provider.of<AppAuthProvider>(context, listen: false)
+                      .signOut(context);
+                }),
           ],
-          leading: IconButton(
+        ),
+      ),
+      appBar: AppBar(
+        actions: [
+          IconButton(
             onPressed: () {},
-            icon: Icon(Icons.menu),
-          )),
+            icon: Icon(Icons.notifications),
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SafeArea(
@@ -36,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Bonjour, Emma',
+                      'Bonjour, Abla',
                       style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 8,
@@ -114,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 15,
                 ),
-                // AdsWidget(),
+                AdsWidget(),
                 SizedBox(
                   height: 15,
                 ),
@@ -142,7 +177,6 @@ class _HomePageState extends State<HomePage> {
                   height: 5,
                 ),
                 Align(alignment: Alignment.centerLeft, child: FreshRecipes()),
-
                 Align(
                   alignment: Alignment.topLeft,
                   child: Row(
@@ -166,7 +200,6 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 5,
                 ),
-
                 Align(
                     alignment: Alignment.centerLeft,
                     child: RecommendedRecippes()),

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +18,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  StreamSubscription<User?>? _listener;
+
   @override
   void initState() {
     initSplash();
@@ -24,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
 
   void initSplash() async {
     await Future.delayed(const Duration(seconds: 1));
-    FirebaseAuth.instance.authStateChanges().listen((user) {
+    _listener = FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user == null) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => LoginPage()));
@@ -33,6 +37,12 @@ class _SplashPageState extends State<SplashPage> {
             context, MaterialPageRoute(builder: (_) => HomePage()));
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _listener?.cancel();
+    super.dispose();
   }
 
   @override

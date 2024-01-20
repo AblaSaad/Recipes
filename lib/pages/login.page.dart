@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                         prefixIcon: Icon(Icons.email_outlined),
                       ),
                       validator: (value) {
-                        if (value == null || (value.isEmpty)) {
+                        if (value == null || (value?.isEmpty ?? false)) {
                           return 'Email Is Required';
                         }
                         return null;
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                                 : Icons.visibility),
                           )),
                       validator: (value) {
-                        if (value == null || (value.isEmpty)) {
+                        if (value == null || (value?.isEmpty ?? false)) {
                           return 'Password Is Required';
                         }
                         return null;
@@ -131,29 +131,35 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-                padding: EdgeInsets.only(top: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Don't have an account?",
-                        style: TextStyle(color: Colors.white)),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => RegisterPage()));
-                      },
-                      child: Text(
-                        'Register',
-                        style: TextStyle(color: Color(0xffF55A00)),
-                      ),
-                    )
-                  ],
-                )),
-          )
+          if (MediaQuery.of(context).viewInsets.bottom == 0)
+            Positioned.fill(
+              bottom: 10,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Don't have an account?",
+                            style: TextStyle(color: Colors.white)),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => RegisterPage()));
+                          },
+                          child: Text(
+                            'Register',
+                            style: TextStyle(color: Color(0xffF55A00)),
+                          ),
+                        )
+                      ],
+                    )),
+              ),
+            )
         ],
       ),
     );

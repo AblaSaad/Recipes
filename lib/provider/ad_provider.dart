@@ -1,23 +1,52 @@
-import 'dart:convert';
-
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recipes/models/ad.model.dart';
 // ad_provider.dart
 
-class AdProvider with ChangeNotifier {
-  List<Ad> adsList = [];
+class AdsProvider extends ChangeNotifier {
+  List<Ad>? _adsList;
 
-  List<Ad> get ads => adsList;
+  List<Ad>? get adsList => _adsList;
+  int sliderIndex = 0;
+  CarouselController? carouselController;
 
-  Future<void> loadAds() async {
-    final String jsonAds =
-        await rootBundle.loadString('assets/data/sample.json');
-    var decodedJson =
-        List<Map<String, dynamic>>.from(jsonDecode(jsonAds)['ads']);
-
-    adsList = decodedJson.map((json) => Ad.fromJson(json)).toList();
-
+  void onPageChanged(int index) {
+    sliderIndex = index;
     notifyListeners();
+  }
+
+  void disposeCarousel() {
+    carouselController = null;
+  }
+
+  void onDotTapped(int position) async {
+    await carouselController?.animateToPage(position);
+    sliderIndex = position;
+    notifyListeners();
+  }
+
+  void initCarousel() {
+    carouselController = CarouselController();
+  }
+
+  Future<void> getAds() async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('ads')
+          .where('isActive', isEqualTo: true)
+          .get();
+
+      if (result.docs.isNotEmpty) {
+        _adsList = List<Ad>.from(
+            result.docs.map((doc) => Ad.fromJson(doc.data(), doc.id)));
+      } else {
+        _adsList = [];
+      }
+      notifyListeners();
+    } catch (e) {
+      _adsList = [];
+      notifyListeners();
+    }
   }
 }
