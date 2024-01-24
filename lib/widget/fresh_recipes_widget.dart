@@ -2,9 +2,14 @@
 
 import 'package:flutter/material.dart';
 
-class FreshRecipes extends StatelessWidget {
+class FreshRecipes extends StatefulWidget {
   const FreshRecipes({super.key});
 
+  @override
+  State<FreshRecipes> createState() => _FreshRecipesState();
+}
+
+class _FreshRecipesState extends State<FreshRecipes> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -66,7 +71,7 @@ class FreshRecipes extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(
-                                  'Fresh Toast With Barries',
+                                  'Fresh Toast With Berries',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(

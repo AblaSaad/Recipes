@@ -5,6 +5,7 @@ import 'package:recipes/firebase_options.dart';
 import 'package:recipes/pages/splash.page.dart';
 import 'package:recipes/provider/ad_provider.dart';
 import 'package:recipes/provider/app_auth_provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 
@@ -28,7 +29,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppAuthProvider()),
     ChangeNotifierProvider(create: (_) => AdsProvider()),
-  ], child: const MyApp()));
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
