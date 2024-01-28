@@ -10,7 +10,7 @@ class Recipe {
   String? title;
   num? total_time;
   String? type;
-  List<String>? favourites_ids;
+  List<String>? favourites_user_ids;
 
   Recipe();
 
@@ -30,8 +30,9 @@ class Recipe {
     title = data['title'];
     total_time = data['total_time'];
     type = data['type'];
-    favourites_ids = data['favourites_ids'] != null
-        ? List<String>.from(data['favourites_ids'].map((e) => e.toString()))
+    favourites_user_ids = data['favourites_user_ids'] != null
+        ? List<String>.from(
+            data['favourites_user_ids'].map((e) => e.toString()))
         : null;
   }
 
@@ -47,7 +48,7 @@ class Recipe {
       "title": title,
       "total_time": total_time,
       "type": type,
-      "favourites_ids": favourites_ids
+      "favourites_user_ids": favourites_user_ids
     };
   }
 }

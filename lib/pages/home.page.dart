@@ -3,12 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/pages/alle_recipes_page.dart';
 import 'package:recipes/pages/favourite_page.dart';
-import 'package:recipes/pages/recipe_page.dart';
-
+import 'package:recipes/pages/ingredients_page.dart';
 import 'package:recipes/widget/fresh_recipes_widget.dart';
 import 'package:recipes/widget/recommended_recipes_widget.dart';
-
 import '../provider/app_auth_provider.dart';
 import '../widget/ads_widget.dart';
 
@@ -67,6 +66,15 @@ class _HomePageState extends State<HomePage> {
                 },
                 leading: Icon(Icons.favorite_border_outlined),
                 title: Text('Favourites'),
+              ),
+              ListTile(
+                onTap: () {
+                  controller.close?.call();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => IngredientsPage()));
+                },
+                leading: Icon(Icons.fastfood),
+                title: Text('Ingredients'),
               ),
               ListTile(
                   leading: const Icon(Icons.play_arrow_rounded),
@@ -228,8 +236,16 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const Align(
-                      alignment: Alignment.centerLeft, child: FreshRecipes()),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        child: const Align(
+                            alignment: Alignment.centerLeft,
+                            child: FreshRecipes()),
+                      ),
+                    ],
+                  ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Row(
