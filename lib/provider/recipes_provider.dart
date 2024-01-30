@@ -8,10 +8,18 @@ import '../widget/toast_message.widget.dart';
 
 class RecipesProvider extends ChangeNotifier {
   List<Recipe>? _recipesList;
+
   List<Recipe>? get recipesList => _recipesList;
+
   List<Recipe>? _freshRecipesList;
 
   List<Recipe>? get freshRecipesList => _freshRecipesList;
+
+  List<Recipe>? _recommandedRecipesList;
+
+  List<Recipe>? get recommandedRecipesList => _recommandedRecipesList;
+
+  Recipe? openedRecipe;
 
   Future<void> getRecipes() async {
     try {
@@ -64,6 +72,22 @@ class RecipesProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getSelectedRecipe(String recipeId) async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('my_recipes')
+          .doc(recipeId)
+          .get();
+      if (result.data() != null) {
+        openedRecipe = Recipe.fromJson(result.data()!, result.id);
+      } else {
+        return;
+      }
+      notifyListeners();
+      // ignore: empty_catches
+    } catch (e) {}
+  }
+
   Future<void> getFreshRecipes() async {
     try {
       var result = await FirebaseFirestore.instance
@@ -81,6 +105,26 @@ class RecipesProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _freshRecipesList = [];
+      notifyListeners();
+    }
+  }
+
+  Future<void> getRecommandedRecipes() async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('my_recipes')
+          .where('isFresh', isEqualTo: false)
+          .limit(5)
+          .get();
+      if (result.docs.isNotEmpty) {
+        _recommandedRecipesList = List<Recipe>.from(
+            result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+      } else {
+        _recommandedRecipesList = [];
+      }
+      notifyListeners();
+    } catch (e) {
+      _recommandedRecipesList = [];
       notifyListeners();
     }
   }
@@ -106,6 +150,49 @@ class RecipesProvider extends ChangeNotifier {
         "recently_viewed_user_ids":
             FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
       });
+    } catch (e) {}
+  }
+
+  Future<void> _updateRecipe(String recipeId) async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('my_recipes')
+          .doc(recipeId)
+          .get();
+      Recipe? updatedRecipe;
+      if (result.data() != null) {
+        updatedRecipe = Recipe.fromJson(result.data()!, result.id);
+      } else {
+        return;
+      }
+
+      var recipesListIndex =
+          recipesList?.indexWhere((recipe) => recipe.docId == recipeId);
+
+      if (recipesListIndex != -1) {
+        recipesList?.removeAt(recipesListIndex!);
+        recipesList?.insert(recipesListIndex!, updatedRecipe);
+      }
+
+      var freshRecipesListIndex =
+          freshRecipesList?.indexWhere((recipe) => recipe.docId == recipeId);
+
+      if (freshRecipesListIndex != -1) {
+        freshRecipesList?.removeAt(freshRecipesListIndex!);
+        freshRecipesList?.insert(freshRecipesListIndex!, updatedRecipe);
+      }
+
+      var recommandedRecipesListIndex = recommandedRecipesList
+          ?.indexWhere((recipe) => recipe.docId == recipeId);
+
+      if (recommandedRecipesListIndex != -1) {
+        recommandedRecipesList?.removeAt(recommandedRecipesListIndex!);
+        recommandedRecipesList?.insert(
+            recommandedRecipesListIndex!, updatedRecipe);
+      }
+
+      notifyListeners();
+      // ignore: empty_catches
     } catch (e) {}
   }
 }

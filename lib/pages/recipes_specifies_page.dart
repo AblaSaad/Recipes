@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:recipes/models/ingredient_model.dart';
 import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/provider/recipes_provider.dart';
+import 'package:recipes/widget/recipes_widget.dart';
 
 class RecipeSpecifyPage extends StatefulWidget {
   final Recipe recipe;
@@ -22,6 +21,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
   void initState() {
     Provider.of<RecipesProvider>(context, listen: false)
         .addRecentlyViewedRecipeToUser(widget.recipe.docId!);
+
     super.initState();
   }
 
@@ -35,7 +35,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
         title: const Text('specfies'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15.0),
         child: ListView(
           children: <Widget>[
             Row(
@@ -44,7 +44,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    widget.recipe?.type ?? 'No Type Found',
+                    widget.recipe.type ?? 'No Type Found',
                     style: const TextStyle(
                       color: Color(0xff2097b3),
                       fontSize: 15,
@@ -91,7 +91,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                       height: 8,
                     ),
                     Text(
-                      widget.recipe?.title ?? "",
+                      widget.recipe.title ?? "",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -123,7 +123,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                       height: 7,
                     ),
                     Text(
-                      widget.recipe?.calories.toString() ?? '',
+                      widget.recipe.calories.toString(),
                       style: const TextStyle(
                         fontSize: 8,
                         fontWeight: FontWeight.normal,
@@ -145,7 +145,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                               width: 5,
                             ),
                             Text(
-                              widget.recipe?.total_time.toString() ?? "",
+                              widget.recipe.total_time.toString(),
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
@@ -166,7 +166,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                               width: 5,
                             ),
                             Text(
-                              "${widget.recipe?.servings ?? 0}",
+                              "${widget.recipe.servings ?? 0}",
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
@@ -200,7 +200,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
               ),
             ),
             ListTile(
-              title: Text('Describtion'),
+              title: const Text('Describtion'),
               subtitle: FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection('my_recipes')
@@ -216,7 +216,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                   }),
             ),
             ListTile(
-              title: Text('Ingredients'),
+              title: const Text('Ingredients'),
               subtitle: FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection('ingredients')
@@ -248,9 +248,9 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                         }
 
                         if (isExsist) {
-                          return Icon(Icons.check);
+                          return const Icon(Icons.check);
                         } else {
-                          return Icon(Icons.close);
+                          return const Icon(Icons.close);
                         }
                       }
 
@@ -274,18 +274,34 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                   }),
             ),
             ListTile(
-              title: Text('Directions'),
-              subtitle: FutureBuilder(
-                  future: FirebaseFirestore.instance
+              title: const Text('Directions'),
+              subtitle: StreamBuilder(
+                  stream: FirebaseFirestore.instance
                       .collection('my_recipes')
-                      .where('user_ids',
+                      .where("directions",
                           arrayContains: FirebaseAuth.instance.currentUser!.uid)
-                      .get(),
-                  builder: (context, snapShot) {
-                    if (snapShot.connectionState == ConnectionState.waiting) {
+                      .snapshots(),
+                  builder: (context, snapshots) {
+                    if (snapshots.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     } else {
-                      return Text('');
+                      if (snapshots.hasError) {
+                        return const Text('ERROR');
+                      } else {
+                        if (snapshots.hasData) {
+                          List<Recipe> recipesList = snapshots.data?.docs
+                                  .map((e) => Recipe.fromJson(e.data(), e.id))
+                                  .toList() ??
+                              [];
+                          return Row(
+                            children: recipesList
+                                .map((e) => RecipeWidget(recipe: e))
+                                .toList(),
+                          );
+                        } else {
+                          return const Text('No Data Found');
+                        }
+                      }
                     }
                   }),
             ),
