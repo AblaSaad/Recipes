@@ -1,7 +1,7 @@
 class Recipe {
   String? docId;
   num? calories;
-  String? describtion;
+  String? describition;
   Map<String, String>? directions;
   String? imageUrl;
   List<String>? ingredients;
@@ -17,7 +17,7 @@ class Recipe {
   Recipe.fromJson(Map<String, dynamic> data, [String? id]) {
     docId = id;
     calories = data['calories'];
-    describtion = data['describtion'];
+    describition = data['describition'];
     directions = data['directions'] != null
         ? Map<String, String>.from(data['directions'])
         : null;
@@ -39,7 +39,7 @@ class Recipe {
   Map<String, dynamic> toJson() {
     return {
       "calories": calories,
-      "describtion": describtion,
+      "describition": describition,
       "directions": directions,
       "imageUrl": imageUrl,
       "ingredients": ingredients,

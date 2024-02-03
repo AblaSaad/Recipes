@@ -13,6 +13,7 @@ class FreshRecipes extends StatefulWidget {
 }
 
 class _FreshRecipesState extends State<FreshRecipes> {
+  @override
   void initState() {
     Provider.of<RecipesProvider>(context, listen: false).getFreshRecipes();
 

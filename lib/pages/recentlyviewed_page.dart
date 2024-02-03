@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flexible_grid_view/flexible_grid_view.dart';
@@ -7,24 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/widget/recipes_widget.dart';
 
-class FavouritesPage extends StatefulWidget {
-  const FavouritesPage({super.key});
+class RecentlyViewedPage extends StatefulWidget {
+  const RecentlyViewedPage({super.key});
 
   @override
-  State<FavouritesPage> createState() => _FavouritesPageState();
+  State<RecentlyViewedPage> createState() => _RecentlyViewedPageState();
 }
 
-class _FavouritesPageState extends State<FavouritesPage> {
+class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favourites page'),
+        title: Text('Recently_Viewed '),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('recipes')
-              .where("favourites_user_ids",
+              .where("recently_viewed_user_ids",
                   arrayContains: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
           builder: (context, snapshots) {

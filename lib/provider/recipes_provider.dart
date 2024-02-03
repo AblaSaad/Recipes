@@ -7,6 +7,18 @@ import '../utilis/toast_message_status.dart';
 import '../widget/toast_message.widget.dart';
 
 class RecipesProvider extends ChangeNotifier {
+  var value = {"type": "breakfast", "serving": 5, "total_time": 20};
+
+  void getFilteredResult() async {
+    var ref = FirebaseFirestore.instance.collection('recipes');
+
+    for (var entry in value.entries) {
+      ref.where(entry.key, isEqualTo: entry.value);
+    }
+
+    var result = await ref.get();
+  }
+
   List<Recipe>? _recipesList;
 
   List<Recipe>? get recipesList => _recipesList;
@@ -21,10 +33,26 @@ class RecipesProvider extends ChangeNotifier {
 
   Recipe? openedRecipe;
 
+  Future<void> getSelectedRecipe(String recipeId) async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('recipes')
+          .doc(recipeId)
+          .get();
+      if (result.data() != null) {
+        openedRecipe = Recipe.fromJson(result.data()!, result.id);
+      } else {
+        return;
+      }
+      notifyListeners();
+    } catch (e) {
+      print('>>>>>error in update recipe');
+    }
+  }
+
   Future<void> getRecipes() async {
     try {
-      var result =
-          await FirebaseFirestore.instance.collection('my_recipes').get();
+      var result = await FirebaseFirestore.instance.collection('recipes').get();
 
       if (result.docs.isNotEmpty) {
         _recipesList = List<Recipe>.from(
@@ -39,59 +67,10 @@ class RecipesProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addFavourietRecipeToUser(String recipeId, bool isAdd) async {
-    try {
-      OverlayLoadingProgress.start();
-      if (isAdd) {
-        await FirebaseFirestore.instance
-            .collection('my_recipes')
-            .doc(recipeId)
-            .update({
-          "favourites_user_ids":
-              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
-        });
-      } else {
-        await FirebaseFirestore.instance
-            .collection('my_recipes')
-            .doc(recipeId)
-            .update({
-          "favourites_user_ids":
-              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
-        });
-      }
-      OverlayLoadingProgress.stop();
-      getRecipes();
-    } catch (e) {
-      OverlayLoadingProgress.stop();
-      OverlayToastMessage.show(
-        widget: ToastMessageWidget(
-          message: 'Error : ${e.toString()}',
-          toastMessageStatus: ToastMessageStatus.failed,
-        ),
-      );
-    }
-  }
-
-  Future<void> getSelectedRecipe(String recipeId) async {
-    try {
-      var result = await FirebaseFirestore.instance
-          .collection('my_recipes')
-          .doc(recipeId)
-          .get();
-      if (result.data() != null) {
-        openedRecipe = Recipe.fromJson(result.data()!, result.id);
-      } else {
-        return;
-      }
-      notifyListeners();
-      // ignore: empty_catches
-    } catch (e) {}
-  }
-
   Future<void> getFreshRecipes() async {
     try {
       var result = await FirebaseFirestore.instance
-          .collection('my_recipes')
+          .collection('recipes')
           .where('isFresh', isEqualTo: true)
           .limit(5)
           .get();
@@ -112,7 +91,7 @@ class RecipesProvider extends ChangeNotifier {
   Future<void> getRecommandedRecipes() async {
     try {
       var result = await FirebaseFirestore.instance
-          .collection('my_recipes')
+          .collection('recipes')
           .where('isFresh', isEqualTo: false)
           .limit(5)
           .get();
@@ -132,7 +111,7 @@ class RecipesProvider extends ChangeNotifier {
   void addRecentlyViewedRecipeToUser(String recipeId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('my_recipes')
+          .collection('recipes')
           .doc(recipeId)
           .update({
         "recently_viewed_user_ids":
@@ -144,7 +123,7 @@ class RecipesProvider extends ChangeNotifier {
   void removeRecipeToUserRecentlyViewed(String recipeId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('my_recipes')
+          .collection('recipes')
           .doc(recipeId)
           .update({
         "recently_viewed_user_ids":
@@ -153,10 +132,43 @@ class RecipesProvider extends ChangeNotifier {
     } catch (e) {}
   }
 
+  Future<void> addFavourietRecipeToUser(String recipeId, bool isAdd) async {
+    try {
+      OverlayLoadingProgress.start();
+      if (isAdd) {
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({
+          "favourites_user_ids":
+              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({
+          "favourites_user_ids":
+              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+        });
+      }
+      await _updateRecipe(recipeId);
+      OverlayLoadingProgress.stop();
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+      OverlayToastMessage.show(
+        widget: ToastMessageWidget(
+          message: 'Error : ${e.toString()}',
+          toastMessageStatus: ToastMessageStatus.failed,
+        ),
+      );
+    }
+  }
+
   Future<void> _updateRecipe(String recipeId) async {
     try {
       var result = await FirebaseFirestore.instance
-          .collection('my_recipes')
+          .collection('recipes')
           .doc(recipeId)
           .get();
       Recipe? updatedRecipe;
@@ -192,7 +204,8 @@ class RecipesProvider extends ChangeNotifier {
       }
 
       notifyListeners();
-      // ignore: empty_catches
-    } catch (e) {}
+    } catch (e) {
+      print('>>>>>error in update recipe');
+    }
   }
 }

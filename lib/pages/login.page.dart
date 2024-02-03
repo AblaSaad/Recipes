@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/pages/forgot_password_page.dart';
 import 'package:recipes/pages/register.page.dart';
 import 'package:recipes/provider/app_auth_provider.dart';
 import 'package:recipes/widget/widget_scrollable.widget.dart';
@@ -67,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                         prefixIcon: Icon(Icons.email_outlined),
                       ),
                       validator: (value) {
-                        if (value == null || (value?.isEmpty ?? false)) {
+                        if (value == null || (value.isEmpty)) {
                           return 'Email Is Required';
                         }
                         return null;
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                                 : Icons.visibility),
                           )),
                       validator: (value) {
-                        if (value == null || (value?.isEmpty ?? false)) {
+                        if (value == null || (value.isEmpty)) {
                           return 'Password Is Required';
                         }
                         return null;
@@ -103,8 +104,13 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      TextButton(
-                          onPressed: () {},
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ForgotPasswordPage()));
+                          },
                           child: Text(
                             'Forgot Password?',
                             style: TextStyle(

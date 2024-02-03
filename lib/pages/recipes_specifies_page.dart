@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:recipes/models/ingredient_model.dart';
 import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/provider/recipes_provider.dart';
-import 'package:recipes/widget/recipes_widget.dart';
 
 class RecipeSpecifyPage extends StatefulWidget {
   final Recipe recipe;
@@ -35,7 +34,7 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
         title: const Text('specfies'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(10.0),
         child: ListView(
           children: <Widget>[
             Row(
@@ -200,21 +199,8 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
               ),
             ),
             ListTile(
-              title: const Text('Describtion'),
-              subtitle: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('my_recipes')
-                      .where('user_ids',
-                          arrayContains: FirebaseAuth.instance.currentUser!.uid)
-                      .get(),
-                  builder: (context, snapShot) {
-                    if (snapShot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      return Text(widget.recipe.describtion ?? "");
-                    }
-                  }),
-            ),
+                title: const Text('Describtion'),
+                subtitle: Text(widget.recipe.describition ?? "")),
             ListTile(
               title: const Text('Ingredients'),
               subtitle: FutureBuilder(
@@ -273,38 +259,12 @@ class _RecipeSpecifyPageState extends State<RecipeSpecifyPage> {
                     }
                   }),
             ),
-            ListTile(
-              title: const Text('Directions'),
-              subtitle: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('my_recipes')
-                      .where("directions",
-                          arrayContains: FirebaseAuth.instance.currentUser!.uid)
-                      .snapshots(),
-                  builder: (context, snapshots) {
-                    if (snapshots.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      if (snapshots.hasError) {
-                        return const Text('ERROR');
-                      } else {
-                        if (snapshots.hasData) {
-                          List<Recipe> recipesList = snapshots.data?.docs
-                                  .map((e) => Recipe.fromJson(e.data(), e.id))
-                                  .toList() ??
-                              [];
-                          return Row(
-                            children: recipesList
-                                .map((e) => RecipeWidget(recipe: e))
-                                .toList(),
-                          );
-                        } else {
-                          return const Text('No Data Found');
-                        }
-                      }
-                    }
-                  }),
-            ),
+            SizedBox(
+              height: 550,
+              child: ListTile(
+                  title: const Text('Directions'),
+                  subtitle: Text(widget.recipe.directions.toString())),
+            )
           ],
         ),
       ),

@@ -4,14 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:recipes/provider/recipes_provider.dart';
 import 'package:recipes/widget/recipes_widget.dart';
 
-class AllRecipes extends StatefulWidget {
-  const AllRecipes({super.key});
+class AllRecipesPage extends StatefulWidget {
+  const AllRecipesPage({super.key});
 
   @override
-  State<AllRecipes> createState() => _AllRecipesState();
+  State<AllRecipesPage> createState() => _AllRecipesPageState();
 }
 
-class _AllRecipesState extends State<AllRecipes> {
+class _AllRecipesPageState extends State<AllRecipesPage> {
   @override
   void initState() {
     Provider.of<RecipesProvider>(context, listen: false).getRecipes();
@@ -29,12 +29,12 @@ class _AllRecipesState extends State<AllRecipes> {
                     : (recipesProvider.recipesList?.isEmpty ?? false)
                         ? const Text('No Data Found')
                         : FlexibleGridView(
-                            axisCount: GridLayoutEnum.twoElementsInRow,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
                             children: recipesProvider.recipesList!
                                 .map((e) => RecipeWidget(recipe: e))
                                 .toList(),
+                            axisCount: GridLayoutEnum.twoElementsInRow,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
                           )));
   }
 }

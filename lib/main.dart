@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/firebase_options.dart';
 import 'package:recipes/pages/splash.page.dart';
@@ -41,18 +42,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'Hellix',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xffF55A00),
-          primary: const Color(0xffF55A00),
+    return OverlayKit(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          fontFamily: 'Hellix',
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xffF55A00),
+            primary: const Color(0xffF55A00),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
+        home: const SplashPage(),
       ),
-      home: const SplashPage(),
     );
   }
 }

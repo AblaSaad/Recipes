@@ -1,11 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/pages/alle_recipes_page.dart';
 import 'package:recipes/pages/favourite_page.dart';
+import 'package:recipes/pages/filter_page.dart';
 import 'package:recipes/pages/ingredients_page.dart';
+import 'package:recipes/pages/recentlyviewed_page.dart';
 import 'package:recipes/widget/fresh_recipes_widget.dart';
 import 'package:recipes/widget/recommended_recipes_widget.dart';
 import '../provider/app_auth_provider.dart';
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     return ZoomDrawer(
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       menuBackgroundColor: Colors.white,
-      boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5)],
+      boxShadow: [const BoxShadow(color: Colors.grey, blurRadius: 5)],
       disableDragGesture: true,
       mainScreenTapClose: true,
       controller: controller,
@@ -55,31 +55,46 @@ class _HomePageState extends State<HomePage> {
                 currentAccountPicture: CircleAvatar(),
               ),
               ListTile(
-                  leading: const Icon(Icons.home),
-                  title: const Text("Home"),
-                  onTap: () {}),
-              ListTile(
                 onTap: () {
                   controller.close?.call();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => FavouritePage()));
+                      MaterialPageRoute(builder: (_) => const HomePage()));
                 },
-                leading: Icon(Icons.favorite_border_outlined),
-                title: Text('Favourites'),
+                leading: const Icon(Icons.home),
+                title: const Text("Home"),
               ),
               ListTile(
                 onTap: () {
                   controller.close?.call();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => IngredientsPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const FavouritesPage()));
                 },
-                leading: Icon(Icons.fastfood),
-                title: Text('Ingredients'),
+                leading: const Icon(Icons.favorite_border_outlined),
+                title: const Text('Favourites'),
+              ),
+              ListTile(
+                onTap: () {
+                  controller.close?.call();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const IngredientsPage()));
+                },
+                leading: const Icon(Icons.fastfood),
+                title: const Text('Ingredients'),
               ),
               ListTile(
                   leading: const Icon(Icons.play_arrow_rounded),
                   title: const Text("Recently Viewed"),
-                  onTap: () {}),
+                  onTap: () {
+                    controller.close?.call();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const RecentlyViewedPage()));
+                  }),
               ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text("Settings"),
@@ -89,8 +104,8 @@ class _HomePageState extends State<HomePage> {
                   Provider.of<AppAuthProvider>(context, listen: false)
                       .signOut(context);
                 },
-                leading: Icon(Icons.power_settings_new),
-                title: Text('Signout'),
+                leading: const Icon(Icons.power_settings_new),
+                title: const Text('Signout'),
               )
             ],
           ),
@@ -99,16 +114,16 @@ class _HomePageState extends State<HomePage> {
       mainScreen: Scaffold(
         appBar: AppBar(
           leading: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: InkWell(
                 onTap: () {
                   controller.toggle!();
                 },
-                child: Icon(Icons.menu)),
+                child: const Icon(Icons.menu)),
           ),
-          actions: [
+          actions: const [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Icon(Icons.notifications),
             )
           ],
@@ -119,7 +134,7 @@ class _HomePageState extends State<HomePage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
@@ -193,8 +208,17 @@ class _HomePageState extends State<HomePage> {
                               horizontal: 10,
                               vertical: 5,
                             ),
-                            child: const Image(
-                                image: AssetImage('assets/images/filter.png')))
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const FilterPage()));
+                              },
+                              child: const Image(
+                                  image:
+                                      AssetImage('assets/images/filter.png')),
+                            ))
                       ],
                     ),
                   ),
@@ -210,7 +234,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Today's Fresh Recipes",
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w600),
@@ -220,9 +244,9 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => AllRecipes()));
+                                    builder: (_) => const AllRecipesPage()));
                           },
-                          child: Text(
+                          child: const Text(
                             "See All",
                             style: TextStyle(
                               fontFamily: 'Hellix medium 14',
@@ -236,11 +260,11 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       SizedBox(
                         height: 300,
-                        child: const Align(
+                        child: Align(
                             alignment: Alignment.centerLeft,
                             child: FreshRecipes()),
                       ),
@@ -251,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Recommended",
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w600),
@@ -261,9 +285,9 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => AllRecipes()));
+                                    builder: (_) => const AllRecipesPage()));
                           },
-                          child: Text(
+                          child: const Text(
                             "See All",
                             style: TextStyle(
                               fontFamily: 'Hellix medium 14',

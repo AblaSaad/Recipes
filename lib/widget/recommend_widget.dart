@@ -36,143 +36,147 @@ class _RecommendWidgetState extends State<RecommendWidget> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Row(children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.network(
-                      alignment: Alignment.topRight,
-                      widget.recipe?.imageUrl ?? "",
-                      fit: BoxFit.fitWidth,
-                      width: 50,
-                      height: 86,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.recipe?.type ?? 'No Type Found',
-                      style: const TextStyle(
-                        color: Color(0xff2097b3),
-                        fontSize: 8,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Text(
-                      widget.recipe?.title ?? "",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    RatingBar.builder(
-                      initialRating: 4,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      updateOnDrag: false,
-                      unratedColor: Colors.grey,
-                      itemCount: 5,
-                      itemSize: 15,
-                      itemBuilder: (context, _) => const Icon(
-                        Icons.star,
-                        color: Color(0xffF55A00),
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text(
-                      widget.recipe?.calories.toString() ?? '',
-                      style: const TextStyle(
-                        fontSize: 8,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Row(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.access_time,
-                          size: 20,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          widget.recipe?.total_time.toString() ?? "",
-                          style: const TextStyle(
-                            fontSize: 8,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const Icon(
-                          Icons.room_service_outlined,
-                          size: 20,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "${widget.recipe?.servings ?? 0}",
-                          style: const TextStyle(
-                            fontSize: 8,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.grey,
-                          ),
+                        Image.network(
+                          alignment: Alignment.topRight,
+                          widget.recipe?.imageUrl ?? "",
+                          fit: BoxFit.fill,
+                          width: 53,
+                          height: 60,
                         ),
                       ],
-                    )
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: InkWell(
-                          onTap: () {
-                            Provider.of<RecipesProvider>(context, listen: false)
-                                .addFavourietRecipeToUser(
-                                    widget.recipe!.docId!,
-                                    !(widget.recipe?.favourites_user_ids
-                                            ?.contains(FirebaseAuth
-                                                .instance.currentUser?.uid) ??
-                                        false));
-                          },
-                          child: (widget.recipe?.favourites_user_ids?.contains(
-                                      FirebaseAuth.instance.currentUser?.uid) ??
-                                  false
-                              ? const Icon(
-                                  Icons.favorite,
-                                  size: 30,
-                                  color: Color(0xffF55A00),
-                                )
-                              : const Icon(
-                                  Icons.favorite_rounded,
-                                  size: 30,
-                                  color: Colors.grey,
-                                ))),
                     ),
-                  ],
-                ),
-              ]),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.recipe?.type ?? 'No Type Found',
+                          style: const TextStyle(
+                            color: Color(0xff2097b3),
+                            fontSize: 8,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          widget.recipe?.title ?? "",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        RatingBar.builder(
+                          initialRating: 4,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          updateOnDrag: false,
+                          unratedColor: Colors.grey,
+                          itemCount: 5,
+                          itemSize: 15,
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: Color(0xffF55A00),
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
+                        ),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        Text(
+                          widget.recipe?.calories.toString() ?? '',
+                          style: const TextStyle(
+                            fontSize: 8,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.access_time,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              widget.recipe?.total_time.toString() ?? "",
+                              style: const TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            const Icon(
+                              Icons.room_service_outlined,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "${widget.recipe?.servings ?? 0}",
+                              style: const TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: InkWell(
+                              onTap: () {
+                                Provider.of<RecipesProvider>(context,
+                                        listen: false)
+                                    .addFavourietRecipeToUser(
+                                        widget.recipe!.docId!,
+                                        !(widget.recipe?.favourites_user_ids
+                                                ?.contains(FirebaseAuth.instance
+                                                    .currentUser?.uid) ??
+                                            false));
+                              },
+                              child: (widget.recipe?.favourites_user_ids
+                                          ?.contains(FirebaseAuth
+                                              .instance.currentUser?.uid) ??
+                                      false
+                                  ? const Icon(
+                                      Icons.favorite,
+                                      size: 30,
+                                      color: Color(0xffF55A00),
+                                    )
+                                  : const Icon(
+                                      Icons.favorite_rounded,
+                                      size: 30,
+                                      color: Colors.grey,
+                                    ))),
+                        ),
+                      ],
+                    ),
+                  ]),
             ),
           ),
         ),
