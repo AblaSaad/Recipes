@@ -1,13 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/filter%20page/filter.page.dart';
 import 'package:recipes/pages/alle_recipes_page.dart';
 import 'package:recipes/pages/favourite_page.dart';
 import 'package:recipes/pages/filter_page.dart';
 import 'package:recipes/pages/ingredients_page.dart';
 import 'package:recipes/pages/recentlyviewed_page.dart';
-import 'package:recipes/pages/profile_page.dart';
+import 'package:recipes/pages/app_profile_page.dart';
 import 'package:recipes/pages/setting.page.dart';
 import 'package:recipes/widget/fresh_recipes_widget.dart';
 import 'package:recipes/widget/recommended_recipes_widget.dart';
@@ -45,22 +47,22 @@ class _HomePageState extends State<HomePage> {
         body: Center(
           child: ListView(
             children: <Widget>[
-              const UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.white),
-                accountName: Text(
-                  "Abla Saad",
-                  style: TextStyle(color: Colors.black),
-                ),
-                accountEmail: Text(
-                  "bella@gmail.com",
-                  style: TextStyle(color: Colors.black),
-                ),
-                currentAccountPicture: CircleAvatar(
-                  radius: 64,
-                  backgroundImage: NetworkImage(
-                      'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.svgrepo.com%2Fshow%2F382095%2Ffemale-avatar-girl-face-woman-user-4.svg&tbnid=MU6VHV97Fy_tBM&vet=12ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ..i&imgrefurl=https%3A%2F%2Fwww.industrialvacuumsystems.com.au%2Fand-SVG-Vector-Free-Download-553340.html&docid=HxzKwtZiNq40EM&w=800&h=800&q=profile%20avatar%20png&ved=2ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ'),
-                ),
-              ),
+              // const UserAccountsDrawerHeader(
+              //   decoration: BoxDecoration(color: Colors.white),
+              //   accountName: Text(
+              //     "Abla Saad",
+              //     style: TextStyle(color: Colors.black),
+              //   ),
+              //   accountEmail: Text(
+              //     "bella@gmail.com",
+              //     style: TextStyle(color: Colors.black),
+              //   ),
+              //   currentAccountPicture: CircleAvatar(
+              //     radius: 64,
+              //     backgroundImage: NetworkImage(
+              //         'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.svgrepo.com%2Fshow%2F382095%2Ffemale-avatar-girl-face-woman-user-4.svg&tbnid=MU6VHV97Fy_tBM&vet=12ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ..i&imgrefurl=https%3A%2F%2Fwww.industrialvacuumsystems.com.au%2Fand-SVG-Vector-Free-Download-553340.html&docid=HxzKwtZiNq40EM&w=800&h=800&q=profile%20avatar%20png&ved=2ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ'),
+              //   ),
+              // ),
               ListTile(
                 onTap: () {
                   controller.close?.call();
@@ -110,6 +112,14 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => SettingsPage()));
                   }),
+              // ListTile(
+              //     leading: const Icon(Icons.person),
+              //     title: const Text("Profile"),
+              //     onTap: () {
+              //       controller.close?.call();
+              //       Navigator.push(context,
+              //           MaterialPageRoute(builder: (_) => AppProfilePage()));
+              //     }),
               ListTile(
                 onTap: () {
                   Provider.of<AppAuthProvider>(context, listen: false)
@@ -145,12 +155,12 @@ class _HomePageState extends State<HomePage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Bonjour, Abla',
-                        style: TextStyle(
+                        "Bonjor, ${FirebaseAuth.instance.currentUser?.displayName.toString()}",
+                        style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 12,
                             fontFamily: 'Hellix_Medium 12'),

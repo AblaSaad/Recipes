@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
+import 'package:path/path.dart';
 import 'package:recipes/pages/home.page.dart';
 import 'package:recipes/pages/login.page.dart';
 import 'package:recipes/pages/register.page.dart';
+import 'package:recipes/utilis/image_selector.dart';
 import '../utilis/toast_message_status.dart';
 import '../widget/toast_message.widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AppAuthProvider extends ChangeNotifier {
   GlobalKey<FormState>? formKey;
@@ -46,6 +50,13 @@ class AppAuthProvider extends ChangeNotifier {
         context, MaterialPageRoute(builder: (_) => const LoginPage()));
   }
 
+  String getUserName({required String? username}) {
+    String result =
+        username!.split(' ').take(2).map((word) => word[0]).join('');
+
+    return result;
+  }
+
   Future<void> signIn(BuildContext context) async {
     try {
       if (formKey?.currentState?.validate() ?? false) {
@@ -67,7 +78,7 @@ class AppAuthProvider extends ChangeNotifier {
 
           if (context.mounted) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => HomePage()));
+                context, MaterialPageRoute(builder: (_) => const HomePage()));
           }
         }
         OverlayLoadingProgress.stop();
@@ -123,7 +134,7 @@ class AppAuthProvider extends ChangeNotifier {
 
           if (context.mounted) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => HomePage()));
+                context, MaterialPageRoute(builder: (_) => const HomePage()));
           }
         }
         OverlayLoadingProgress.stop();
@@ -138,9 +149,83 @@ class AppAuthProvider extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 1));
     await FirebaseAuth.instance.signOut();
     if (context.mounted) {
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (_) => LoginPage()), (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginPage()),
+          (route) => false);
     }
     OverlayLoadingProgress.stop();
+  }
+
+  // Future<void> updateUserPhoto() async {
+  //   try {
+  //     OverlayLoadingProgress.start();
+  //     var imageUrl = await  PickImage(ImageSource.gallery);
+  //     var refs =
+  //         FirebaseStorage.instance.ref("profile/${imageUrl?.files.first.name}");
+  //     if (imageUrl?.files.first.bytes != null) {
+  //       await refs.putData(
+  //         imageUrl!.files.first.bytes!,
+  //         SettableMetadata(contentType: "image/png"),
+  //       );
+  //       await FirebaseAuth.instance.currentUser
+  //           ?.updatePhotoURL(await refs.getDownloadURL());
+  //       notifyListeners();
+  //       OverlayToastMessage.show(
+  //         textMessage: "Uploading Photo Successfully",
+  //       );
+  //     }
+
+  //     OverlayLoadingProgress.stop();
+  //   } catch (e) {
+  //     OverlayLoadingProgress.stop();
+  //     OverlayToastMessage.show(
+  //       textMessage: "Uploading Photo Faild",
+  //     );
+  //   }
+  // }
+
+  // Future<void> removePhoto() async {
+  //   await FirebaseAuth.instance.currentUser?.updatePhotoURL(null);
+  //   notifyListeners();
+  // }
+
+  Future<void> updateUserName(BuildContext context, String name) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Update Name'),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: nameController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter Name',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Ok',
+                    style: TextStyle(color: Color(0xffF55A00)),
+                  )),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel',
+                      style: TextStyle(color: Color(0xffF55A00))))
+            ],
+          );
+        });
   }
 }
