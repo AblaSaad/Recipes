@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/pages/forgot_password_page.dart';
 import 'package:recipes/pages/register.page.dart';
 import 'package:recipes/provider/app_auth_provider.dart';
 import 'package:recipes/widget/widget_scrollable.widget.dart';
@@ -105,11 +105,9 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => ForgotPasswordPage()));
+                          onTap: () async {
+                            await FirebaseAuth.instance.sendPasswordResetEmail(
+                                email: authProvider.emailController!.text);
                           },
                           child: Text(
                             'Forgot Password?',

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/pages/alle_recipes_page.dart';
 import 'package:recipes/pages/favourite_page.dart';
 import 'package:recipes/pages/filter_page.dart';
 import 'package:recipes/pages/ingredients_page.dart';
 import 'package:recipes/pages/recentlyviewed_page.dart';
+import 'package:recipes/pages/profile_page.dart';
+import 'package:recipes/pages/setting.page.dart';
 import 'package:recipes/widget/fresh_recipes_widget.dart';
 import 'package:recipes/widget/recommended_recipes_widget.dart';
 import '../provider/app_auth_provider.dart';
@@ -32,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     return ZoomDrawer(
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       menuBackgroundColor: Colors.white,
-      boxShadow: [const BoxShadow(color: Colors.grey, blurRadius: 5)],
+      boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5)],
       disableDragGesture: true,
       mainScreenTapClose: true,
       controller: controller,
@@ -52,7 +55,11 @@ class _HomePageState extends State<HomePage> {
                   "bella@gmail.com",
                   style: TextStyle(color: Colors.black),
                 ),
-                currentAccountPicture: CircleAvatar(),
+                currentAccountPicture: CircleAvatar(
+                  radius: 64,
+                  backgroundImage: NetworkImage(
+                      'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.svgrepo.com%2Fshow%2F382095%2Ffemale-avatar-girl-face-woman-user-4.svg&tbnid=MU6VHV97Fy_tBM&vet=12ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ..i&imgrefurl=https%3A%2F%2Fwww.industrialvacuumsystems.com.au%2Fand-SVG-Vector-Free-Download-553340.html&docid=HxzKwtZiNq40EM&w=800&h=800&q=profile%20avatar%20png&ved=2ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ'),
+                ),
               ),
               ListTile(
                 onTap: () {
@@ -98,7 +105,11 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text("Settings"),
-                  onTap: () {}),
+                  onTap: () {
+                    controller.close?.call();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => SettingsPage()));
+                  }),
               ListTile(
                 onTap: () {
                   Provider.of<AppAuthProvider>(context, listen: false)
@@ -168,35 +179,44 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                            height: 40,
-                            width: 250,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 5,
-                              vertical: 5,
-                            ),
-                            child: const Row(children: [
-                              Icon(
-                                Icons.search,
-                                color: Colors.grey,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const FilterPage()));
+                          },
+                          child: Container(
+                              height: 40,
+                              width: 250,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              SizedBox(width: 10),
-                              Flexible(
-                                flex: 4,
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: "Search for recipes",
-                                    hintStyle: TextStyle(
-                                        fontSize: 12, color: Color(0xffB2B7C6)),
-                                    border: InputBorder.none,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                                vertical: 5,
+                              ),
+                              child: const Row(children: [
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(width: 10),
+                                Flexible(
+                                  flex: 4,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "Search for recipes",
+                                      hintStyle: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xffB2B7C6)),
+                                      border: InputBorder.none,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ])),
+                              ])),
+                        ),
                         Container(
                             height: 40,
                             width: 40,

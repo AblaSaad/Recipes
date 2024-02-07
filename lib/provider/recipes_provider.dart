@@ -22,6 +22,9 @@ class RecipesProvider extends ChangeNotifier {
   List<Recipe>? _recipesList;
 
   List<Recipe>? get recipesList => _recipesList;
+  List<Recipe>? _filteredList;
+
+  List<Recipe>? get filteredList => _filteredList;
 
   List<Recipe>? _freshRecipesList;
 
@@ -55,14 +58,14 @@ class RecipesProvider extends ChangeNotifier {
       var result = await FirebaseFirestore.instance.collection('recipes').get();
 
       if (result.docs.isNotEmpty) {
-        _recipesList = List<Recipe>.from(
+        _filteredList = List<Recipe>.from(
             result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
       } else {
-        _recipesList = [];
+        _filteredList = [];
       }
       notifyListeners();
     } catch (e) {
-      _recipesList = [];
+      _filteredList = [];
       notifyListeners();
     }
   }

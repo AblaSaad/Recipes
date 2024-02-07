@@ -17,7 +17,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recently_Viewed '),
+        title: const Text('Recently_Viewed '),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -30,7 +30,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
               return const CircularProgressIndicator();
             } else {
               if (snapshots.hasError) {
-                return const Text('ERROR WHEN GET DATA');
+                return const Text('ERROR when get Data');
               } else {
                 if (snapshots.hasData) {
                   List<Recipe> recipesList = snapshots.data?.docs
