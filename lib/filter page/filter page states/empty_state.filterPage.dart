@@ -10,13 +10,12 @@ class EmptyFilterState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Image.asset(
-            "assets/images/Questions.gif",
-            scale: 1.5,
+            "assets/images/error.gif",
+            scale: 1,
           ),
           const Text(
-            "Ooops, No Result Match Your Filter !",
+            "No result match !",
             style: TextStyle(
-              fontFamily: "Abril Fatface",
               fontSize: 15,
               color: Color(0xffF55A00),
             ),

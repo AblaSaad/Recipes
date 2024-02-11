@@ -47,7 +47,7 @@ class _RecommendWidgetState extends State<RecommendWidget> {
                           alignment: Alignment.topRight,
                           widget.recipe?.imageUrl ?? "",
                           fit: BoxFit.fill,
-                          width: 53,
+                          width: 51,
                           height: 60,
                         ),
                       ],

@@ -11,6 +11,7 @@ import 'package:recipes/pages/ingredients_page.dart';
 import 'package:recipes/pages/recentlyviewed_page.dart';
 import 'package:recipes/pages/app_profile_page.dart';
 import 'package:recipes/pages/setting.page.dart';
+
 import 'package:recipes/widget/fresh_recipes_widget.dart';
 import 'package:recipes/widget/recommended_recipes_widget.dart';
 import '../provider/app_auth_provider.dart';
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     return ZoomDrawer(
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       menuBackgroundColor: Colors.white,
-      boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5)],
+      boxShadow: [const BoxShadow(color: Colors.grey, blurRadius: 5)],
       disableDragGesture: true,
       mainScreenTapClose: true,
       controller: controller,
@@ -47,22 +48,20 @@ class _HomePageState extends State<HomePage> {
         body: Center(
           child: ListView(
             children: <Widget>[
-              // const UserAccountsDrawerHeader(
-              //   decoration: BoxDecoration(color: Colors.white),
-              //   accountName: Text(
-              //     "Abla Saad",
-              //     style: TextStyle(color: Colors.black),
-              //   ),
-              //   accountEmail: Text(
-              //     "bella@gmail.com",
-              //     style: TextStyle(color: Colors.black),
-              //   ),
-              //   currentAccountPicture: CircleAvatar(
-              //     radius: 64,
-              //     backgroundImage: NetworkImage(
-              //         'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.svgrepo.com%2Fshow%2F382095%2Ffemale-avatar-girl-face-woman-user-4.svg&tbnid=MU6VHV97Fy_tBM&vet=12ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ..i&imgrefurl=https%3A%2F%2Fwww.industrialvacuumsystems.com.au%2Fand-SVG-Vector-Free-Download-553340.html&docid=HxzKwtZiNq40EM&w=800&h=800&q=profile%20avatar%20png&ved=2ahUKEwjGsK27hpWEAxW9VKQEHf-jCQkQMygWegUIARCjAQ'),
-              //   ),
-              // ),
+              UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(color: Colors.white),
+                accountName: Text(
+                  "${FirebaseAuth.instance.currentUser!.displayName}",
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
+                ),
+                accountEmail: Text(
+                  "${FirebaseAuth.instance.currentUser!.email}",
+                  style: const TextStyle(color: Colors.black, fontSize: 12),
+                ),
+                currentAccountPicture: const CircleAvatar(
+                    radius: 80,
+                    backgroundImage: AssetImage('assets/images/filter.png')),
+              ),
               ListTile(
                 onTap: () {
                   controller.close?.call();
@@ -109,8 +108,10 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Settings"),
                   onTap: () {
                     controller.close?.call();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => SettingsPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SettingsPage()));
                   }),
               // ListTile(
               //     leading: const Icon(Icons.person),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:recipes/pages/app_profile_page.dart';
 
 class SettingsPage extends StatelessWidget {

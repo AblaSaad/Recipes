@@ -12,4 +12,7 @@ class AppColors {
   static const greyAccent = Color(0xfff7f8fc);
   static const red = Colors.red;
   static const black = Colors.black;
+  static const mainColor = 0xfff45b00;
+  static const containerBackgroundColor = 0xffeeeeee;
+  static const titleColor = 0xff2097b3;
 }

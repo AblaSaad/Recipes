@@ -1,6 +1,5 @@
-import 'package:custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
-
+import 'package:recipes/services/meal_service.dart';
 import 'package:recipes/utilis/colors.utilities.dart';
 
 // ignore: must_be_immutable
@@ -34,18 +33,18 @@ class _DefaultFilterState extends State<DefaultFilterState> {
           const Text(
             "Meal",
             style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
             ),
           ),
           Center(
             child: Wrap(
               spacing: 10.0,
-              children: MealType.values
+              children: MealTypes.values
                   .map(
                     (type) => FilterChip(
-                      side: const BorderSide(color: AppColors.lightGrey),
-                      backgroundColor: AppColors.greyAccent,
+                      side: BorderSide(color: Colors.grey.shade300),
+                      backgroundColor: Colors.grey.shade300,
                       selectedColor: AppColors.primaryColor,
                       checkmarkColor: widget.filter.containsValue(type.name)
                           ? AppColors.white
@@ -111,7 +110,7 @@ class _DefaultFilterState extends State<DefaultFilterState> {
                             ? widget.caloriesSlider = serving
                             : widget.timeSlider = serving;
                     details.name == "Serving"
-                        ? widget.filter["serving"] = widget.servingSlider
+                        ? widget.filter["servings"] = widget.servingSlider
                         : details.name == "Calories"
                             ? widget.filter["mealCalories"] =
                                 widget.caloriesSlider
@@ -140,11 +139,3 @@ class _DefaultFilterState extends State<DefaultFilterState> {
     );
   }
 }
-
-// in these enums i am sorry for using enum names start with capital letters
-// but i store them in firestore with capital letters and these must be the same
-// ignore: constant_identifier_names
-enum MealType { Breakfast, Dinner, Launch }
-
-// ignore: constant_identifier_names
-enum MealDetails { Serving, Calories, Time }

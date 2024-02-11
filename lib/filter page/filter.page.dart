@@ -4,7 +4,7 @@ import 'package:recipes/filter%20page/filter%20page%20states/default_state.filte
 import 'package:recipes/filter%20page/filter%20page%20states/empty_state.filterPage.dart';
 import 'package:recipes/provider/recipes_provider.dart';
 import 'package:recipes/utilis/colors.utilities.dart';
-import 'package:recipes/widget/recommended_recipes_widget.dart';
+import 'package:recipes/widget/recipes_widget.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
@@ -78,9 +78,9 @@ class _FilterPageState extends State<FilterPage> {
                             horizontal: 20, vertical: 10),
                         child: ListView.builder(
                           itemCount: filteredRecipes.filteredList!.length,
-                          itemBuilder: (context, index) => RecommendedRecippes(
-                              // recipe: filteredRecipes.filteredList![index],
-                              ),
+                          itemBuilder: (context, index) => RecipeWidget(
+                            recipe: filteredRecipes.filteredList![index],
+                          ),
                         ),
                       )
                     : const EmptyFilterState(),

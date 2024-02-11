@@ -1,15 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
-import 'package:path/path.dart';
 import 'package:recipes/pages/home.page.dart';
 import 'package:recipes/pages/login.page.dart';
 import 'package:recipes/pages/register.page.dart';
-import 'package:recipes/utilis/image_selector.dart';
 import '../utilis/toast_message_status.dart';
 import '../widget/toast_message.widget.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AppAuthProvider extends ChangeNotifier {
   GlobalKey<FormState>? formKey;
@@ -190,42 +187,42 @@ class AppAuthProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> updateUserName(BuildContext context, String name) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Update Name'),
-            content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: nameController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      hintText: 'Enter Name',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Ok',
-                    style: TextStyle(color: Color(0xffF55A00)),
-                  )),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel',
-                      style: TextStyle(color: Color(0xffF55A00))))
-            ],
-          );
-        });
-  }
+  // Future<void> updateUserName(BuildContext context, String name) async {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           title: const Text('Update Name'),
+  //           content: SingleChildScrollView(
+  //             child: Column(
+  //               children: [
+  //                 TextFormField(
+  //                   controller: nameController,
+  //                   style: const TextStyle(color: Colors.white),
+  //                   decoration: const InputDecoration(
+  //                     hintText: 'Enter Name',
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           actions: [
+  //             TextButton(
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //                 child: const Text(
+  //                   'Ok',
+  //                   style: TextStyle(color: Color(0xffF55A00)),
+  //                 )),
+  //             TextButton(
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //                 child: const Text('Cancel',
+  //                     style: TextStyle(color: Color(0xffF55A00))))
+  //           ],
+  //         );
+  //       });
+  // }
 }
