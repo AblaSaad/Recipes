@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/models/recipe_model.dart';
-import 'package:recipes/pages/recipes_specifies_page.dart';
-import '../provider/recipes_provider.dart';
+import 'package:recipes/view/pages/recipes_specifies_page.dart';
+import '../../provider/recipes_provider.dart';
 
 class RecipeWidget extends StatefulWidget {
   final Recipe? recipe;

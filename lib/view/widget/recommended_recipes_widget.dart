@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/provider/recipes_provider.dart';
-import 'package:recipes/widget/recommend_widget.dart';
+import 'package:recipes/view/widget/recommend_widget.dart';
 
 class RecommendedRecippes extends StatefulWidget {
   const RecommendedRecippes({super.key});

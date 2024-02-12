@@ -3,9 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/pages/register.page.dart';
+import 'package:recipes/view/pages/register.page.dart';
 import 'package:recipes/provider/app_auth_provider.dart';
-import 'package:recipes/widget/widget_scrollable.widget.dart';
+import 'package:recipes/view/widget/widget_scrollable.widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

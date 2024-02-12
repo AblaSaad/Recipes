@@ -5,7 +5,7 @@ import 'package:overlay_kit/overlay_kit.dart';
 
 import '../models/ingredient_model.dart';
 import '../utilis/toast_message_status.dart';
-import '../widget/toast_message.widget.dart';
+import '../view/widget/toast_message.widget.dart';
 
 class IngredientsProvider extends ChangeNotifier {
   List<Ingredient>? _ingredientsList;

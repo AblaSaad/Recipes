@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/pages/login.page.dart';
+import 'package:recipes/view/pages/login.page.dart';
 import 'package:recipes/provider/app_auth_provider.dart';
-import 'package:recipes/widget/widget_scrollable.widget.dart';
+import 'package:recipes/view/widget/widget_scrollable.widget.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

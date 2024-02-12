@@ -4,9 +4,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recipes/pages/home.page.dart';
-import 'package:recipes/pages/login.page.dart';
-import 'package:recipes/pages/register.page.dart';
+import 'package:recipes/view/pages/home.page.dart';
+import 'package:recipes/view/pages/login.page.dart';
+import 'package:recipes/view/pages/register.page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

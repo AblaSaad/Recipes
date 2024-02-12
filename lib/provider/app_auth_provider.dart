@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
-import 'package:recipes/pages/home.page.dart';
-import 'package:recipes/pages/login.page.dart';
-import 'package:recipes/pages/register.page.dart';
+import 'package:recipes/view/pages/home.page.dart';
+import 'package:recipes/view/pages/login.page.dart';
+import 'package:recipes/view/pages/register.page.dart';
 import '../utilis/toast_message_status.dart';
-import '../widget/toast_message.widget.dart';
+import '../view/widget/toast_message.widget.dart';
 
 class AppAuthProvider extends ChangeNotifier {
   GlobalKey<FormState>? formKey;

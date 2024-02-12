@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/provider/recipes_provider.dart';
-import 'package:recipes/widget/recipes_widget.dart';
+import 'package:recipes/view/widget/recipes_widget.dart';
 
 class FreshRecipes extends StatefulWidget {
   const FreshRecipes({super.key});

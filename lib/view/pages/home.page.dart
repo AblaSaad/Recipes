@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/filter%20page/filter.page.dart';
-import 'package:recipes/pages/alle_recipes_page.dart';
-import 'package:recipes/pages/favourite_page.dart';
-import 'package:recipes/pages/filter_page.dart';
-import 'package:recipes/pages/ingredients_page.dart';
-import 'package:recipes/pages/recentlyviewed_page.dart';
-import 'package:recipes/pages/app_profile_page.dart';
-import 'package:recipes/pages/setting.page.dart';
+import 'package:recipes/filter/filter.page.dart';
+import 'package:recipes/view/pages/alle_recipes_page.dart';
+import 'package:recipes/view/pages/favourite_page.dart';
+import 'package:recipes/view/pages/filter_page.dart';
+import 'package:recipes/view/pages/ingredients_page.dart';
+import 'package:recipes/view/pages/recentlyviewed_page.dart';
+import 'package:recipes/view/pages/setting.page.dart';
 
-import 'package:recipes/widget/fresh_recipes_widget.dart';
-import 'package:recipes/widget/recommended_recipes_widget.dart';
-import '../provider/app_auth_provider.dart';
+import 'package:recipes/view/widget/fresh_recipes_widget.dart';
+import 'package:recipes/view/widget/recommended_recipes_widget.dart';
+import '../../provider/app_auth_provider.dart';
 import '../widget/ads_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -113,14 +112,7 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                             builder: (_) => const SettingsPage()));
                   }),
-              // ListTile(
-              //     leading: const Icon(Icons.person),
-              //     title: const Text("Profile"),
-              //     onTap: () {
-              //       controller.close?.call();
-              //       Navigator.push(context,
-              //           MaterialPageRoute(builder: (_) => AppProfilePage()));
-              //     }),
+             
               ListTile(
                 onTap: () {
                   Provider.of<AppAuthProvider>(context, listen: false)

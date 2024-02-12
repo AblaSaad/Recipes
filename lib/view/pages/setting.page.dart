@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/pages/app_profile_page.dart';
+import 'package:recipes/view/pages/profile_page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -69,7 +69,7 @@ class SettingsPage extends StatelessWidget {
                 trailing: TextButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => ProfilePage()));
+                        MaterialPageRoute(builder: (_) => ProfileScreen()));
                   },
                   child: const Text(
                     "Edit",

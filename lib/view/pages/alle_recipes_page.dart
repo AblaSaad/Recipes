@@ -2,7 +2,7 @@ import 'package:flexible_grid_view/flexible_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/provider/recipes_provider.dart';
-import 'package:recipes/widget/recipes_widget.dart';
+import 'package:recipes/view/widget/recipes_widget.dart';
 
 class AllRecipesPage extends StatefulWidget {
   const AllRecipesPage({super.key});
