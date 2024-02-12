@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:recipes/models/recipe_model.dart';
 import '../utilis/toast_message_status.dart';
-import '../widget/toast_message.widget.dart';
+import '../view/widget/toast_message.widget.dart';
 
 class RecipesProvider extends ChangeNotifier {
   var value = {"type": "breakfast", "serving": 5, "total_time": 20};
@@ -22,6 +22,7 @@ class RecipesProvider extends ChangeNotifier {
   List<Recipe>? _recipesList;
 
   List<Recipe>? get recipesList => _recipesList;
+
   List<Recipe>? _filteredList;
 
   List<Recipe>? get filteredList => _filteredList;
@@ -58,14 +59,14 @@ class RecipesProvider extends ChangeNotifier {
       var result = await FirebaseFirestore.instance.collection('recipes').get();
 
       if (result.docs.isNotEmpty) {
-        _filteredList = List<Recipe>.from(
+        _recipesList = List<Recipe>.from(
             result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
       } else {
-        _filteredList = [];
+        _recipesList = [];
       }
       notifyListeners();
     } catch (e) {
-      _filteredList = [];
+      _recipesList = [];
       notifyListeners();
     }
   }

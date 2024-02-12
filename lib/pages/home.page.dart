@@ -192,10 +192,10 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const FilterPage()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (_) => const FilterPage()));
                           },
                           child: Container(
                               height: 40,
@@ -241,10 +241,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => const FilterPage()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (_) => const FilterPage()));
                               },
                               child: const Image(
                                   image:

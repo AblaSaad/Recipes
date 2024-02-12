@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/firebase_options.dart';
-import 'package:recipes/pages/splash.page.dart';
+import 'package:recipes/view/pages/splash.page.dart';
 import 'package:recipes/provider/ad_provider.dart';
 import 'package:recipes/provider/app_auth_provider.dart';
 import 'package:recipes/provider/ingredients_provider.dart';
 import 'package:recipes/provider/recipes_provider.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 
@@ -34,7 +33,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => AdsProvider()),
     ChangeNotifierProvider(create: (_) => IngredientsProvider()),
     ChangeNotifierProvider(create: (_) => RecipesProvider()),
-  ], child: MyApp()));
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
