@@ -7,17 +7,12 @@ import '../utilis/toast_message_status.dart';
 import '../view/widget/toast_message.widget.dart';
 
 class RecipesProvider extends ChangeNotifier {
-  var value = {"type": "breakfast", "serving": 5, "total_time": 20};
-
-  void getFilteredResult() async {
-    var ref = FirebaseFirestore.instance.collection('recipes');
-
-    for (var entry in value.entries) {
-      ref.where(entry.key, isEqualTo: entry.value);
-    }
-
-    var result = await ref.get();
-  }
+  Map<String, dynamic> filter = {
+    "type": "",
+    "calories": 0,
+    "servings": 0,
+    "total_time": 0,
+  };
 
   List<Recipe>? _recipesList;
 
@@ -36,6 +31,39 @@ class RecipesProvider extends ChangeNotifier {
   List<Recipe>? get recommandedRecipesList => _recommandedRecipesList;
 
   Recipe? openedRecipe;
+
+  Future<void> getFilteredRecipes() async {
+    try {
+      OverlayLoadingProgress.start();
+      Query<Map<String, dynamic>>? result;
+      var ref = FirebaseFirestore.instance.collection("recipes");
+      for (var entry in filter.entries) {
+        result = ref.where(entry.key, isEqualTo: entry.value);
+      }
+
+      var filterRecipes = await result?.get();
+      if (filterRecipes?.docs.isNotEmpty ?? false) {
+        _filteredList = List<Recipe>.from(
+          filterRecipes!.docs.map(
+            (doc) => Recipe.fromJson(doc.data(), doc.id),
+          ),
+        );
+      } else {
+        _filteredList = [];
+      }
+      notifyListeners();
+      OverlayLoadingProgress.stop();
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+
+      OverlayToastMessage.show(
+        widget: const ToastMessageWidget(
+          message: " Filtered Faild",
+          toastMessageStatus: ToastMessageStatus.failed,
+        ),
+      );
+    }
+  }
 
   Future<void> getSelectedRecipe(String recipeId) async {
     try {

@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/filter/filter.page.dart';
 import 'package:recipes/view/pages/alle_recipes_page.dart';
 import 'package:recipes/view/pages/favourite_page.dart';
-import 'package:recipes/view/pages/filter_page.dart';
+import 'package:recipes/view/pages/filter/filter_page.dart';
 import 'package:recipes/view/pages/ingredients_page.dart';
 import 'package:recipes/view/pages/recentlyviewed_page.dart';
 import 'package:recipes/view/pages/setting.page.dart';
@@ -59,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 currentAccountPicture: const CircleAvatar(
                     radius: 80,
-                    backgroundImage: AssetImage('assets/images/filter.png')),
+                    backgroundImage: AssetImage('assets/images/avatar.png')),
               ),
               ListTile(
                 onTap: () {
@@ -112,7 +110,6 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                             builder: (_) => const SettingsPage()));
                   }),
-             
               ListTile(
                 onTap: () {
                   Provider.of<AppAuthProvider>(context, listen: false)
@@ -135,12 +132,6 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: const Icon(Icons.menu)),
           ),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Icon(Icons.notifications),
-            )
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(20),
@@ -184,10 +175,10 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         InkWell(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (_) => const FilterPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const FilterPage()));
                           },
                           child: Container(
                               height: 40,
@@ -208,13 +199,15 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(width: 10),
                                 Flexible(
                                   flex: 4,
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: "Search for recipes",
-                                      hintStyle: TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xffB2B7C6)),
-                                      border: InputBorder.none,
+                                  child: InkWell(
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: "Search for recipes",
+                                        hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xffB2B7C6)),
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -233,10 +226,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: InkWell(
                               onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (_) => const FilterPage()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const FilterPage()));
                               },
                               child: const Image(
                                   image:
