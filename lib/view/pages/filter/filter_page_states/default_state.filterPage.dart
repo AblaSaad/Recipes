@@ -7,14 +7,14 @@ class DefaultFilterState extends StatefulWidget {
   final VoidCallback apply;
   double servingvalue;
   double caloriesvalue;
-  double timevalue;
+  double total_timevalue;
   DefaultFilterState(
       {super.key,
       required this.filter,
       required this.apply,
       required this.servingvalue,
       required this.caloriesvalue,
-      required this.timevalue});
+      required this.total_timevalue});
 
   @override
   State<DefaultFilterState> createState() => _DefaultFilterState();
@@ -110,12 +110,12 @@ class _DefaultFilterState extends State<DefaultFilterState> {
                   Slider(
                     min: 0.0,
                     max: 300.0,
-                    value: widget.timevalue,
+                    value: widget.total_timevalue,
                     divisions: 150,
-                    label: '${widget.timevalue.round()}',
+                    label: '${widget.total_timevalue.round()}',
                     onChanged: (value) {
                       setState(() {
-                        widget.timevalue = value;
+                        widget.total_timevalue = value;
                       });
                     },
                     activeColor: const Color(0xffF55A00),

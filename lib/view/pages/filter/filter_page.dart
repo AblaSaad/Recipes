@@ -62,7 +62,7 @@ class _FilterPageState extends State<FilterPage> {
                     },
                     servingvalue: servingvalue,
                     caloriesvalue: caloriesvalue,
-                    timevalue: timevalue)
+                    total_timevalue: timevalue)
                 : filteredRecipes.filteredList!.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(
