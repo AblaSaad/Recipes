@@ -69,7 +69,7 @@ class SettingsPage extends StatelessWidget {
                 trailing: TextButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => ProfileScreen()));
+                        MaterialPageRoute(builder: (_) => ProfilePage()));
                   },
                   child: const Text(
                     "Edit",

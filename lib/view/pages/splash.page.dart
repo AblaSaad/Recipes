@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/view/pages/home.page.dart';
 import 'package:recipes/view/pages/login.page.dart';
-import 'package:recipes/view/pages/register.page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -74,42 +73,6 @@ class _SplashPageState extends State<SplashPage> {
                     color: Color(0xffB2B7C6),
                     fontSize: 15,
                     fontFamily: 'Hellix'),
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size(400, 50),
-                      backgroundColor: Color(0xffF55A00),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const RegisterPage()));
-                    },
-                    child: Text('Register',
-                        style: TextStyle(color: Colors.white))),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Sign In',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
               ),
             ],
           ),

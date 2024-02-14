@@ -8,6 +8,9 @@ import 'package:recipes/provider/ad_provider.dart';
 import 'package:recipes/provider/app_auth_provider.dart';
 import 'package:recipes/provider/ingredients_provider.dart';
 import 'package:recipes/provider/recipes_provider.dart';
+import 'package:responsive_framework/breakpoint.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 
@@ -21,12 +24,6 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
-    // if (PrefrencesService.prefs != null) {
-    //   print(
-    //       '========================= prefrences init Successfully ========================');
-    // }
-    // ignore: empty_catches
   } catch (e) {}
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppAuthProvider()),
@@ -43,6 +40,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return OverlayKit(
       child: MaterialApp(
+        builder: (context, child) => ResponsiveBreakpoints.builder(
+          child: child!,
+          breakpoints: [
+            const Breakpoint(start: 0, end: 450, name: MOBILE),
+            const Breakpoint(start: 451, end: 800, name: TABLET),
+            const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+            const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+          ],
+        ),
+        initialRoute: '/',
+        // onGenerateRoute: (RouteSettings settings) {
+        //   return MaterialPageRoute(builder: (context) {
+        //     return BouncingScrollWrapper.builder(
+        //         context, buildPage(settings.name ?? ''),
+        //         dragWithMouse: true);
+        //   });
+        // },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

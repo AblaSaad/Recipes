@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/services/meal_service.dart';
 
 // ignore: must_be_immutable
 class DefaultFilterState extends StatefulWidget {
   final Map<String, dynamic> filter;
-  final VoidCallback applyButton;
-  double servingSlider;
-  double caloriesSlider;
-  double timeSlider;
+  final VoidCallback apply;
+  double servingvalue;
+  double caloriesvalue;
+  double timevalue;
   DefaultFilterState(
       {super.key,
       required this.filter,
-      required this.applyButton,
-      required this.servingSlider,
-      required this.caloriesSlider,
-      required this.timeSlider});
+      required this.apply,
+      required this.servingvalue,
+      required this.caloriesvalue,
+      required this.timevalue});
 
   @override
   State<DefaultFilterState> createState() => _DefaultFilterState();
@@ -23,162 +24,143 @@ class _DefaultFilterState extends State<DefaultFilterState> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-            child: Wrap(spacing: 10, children: [
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Meal',
-                  style: TextStyle(fontSize: 18.0),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  widget.filter['MealTypes'] = "breakfast";
-                  setState(() {});
-                },
-                child: Chip(
-                  label: const Text('Breakfast'),
-                  backgroundColor: widget.filter['MealTypes'] == "breakfast"
-                      ? const Color(0xffF55A00)
-                      : Colors.grey,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  widget.filter['MealTypes'] = "launch";
-                  setState(() {});
-                },
-                child: Chip(
-                  label: const Text('Launch'),
-                  backgroundColor: widget.filter['MealTypes'] == "launch"
-                      ? const Color(0xffF55A00)
-                      : Colors.grey,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  widget.filter['MealTypes'] = "dinner";
-                  setState(() {});
-                },
-                child: Chip(
-                  label: const Text('Dinner'),
-                  backgroundColor: widget.filter['type'] == "dinner"
-                      ? const Color(0xffF55A00)
-                      : Colors.grey,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                ),
-              ),
-            ]),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          const Divider(),
-          const SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Serving',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                ),
-                Slider(
-                  min: 0.0,
-                  max: 10.0,
-                  value: widget.servingSlider,
-                  divisions: 5,
-                  label: '${widget.servingSlider.round()}',
-                  onChanged: (value) {
-                    setState(() {
-                      widget.servingSlider = value;
-                    });
-                  },
-                  activeColor: const Color(
-                      0xffF55A00), // Sets the color of the active track
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Total Time',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                ),
-                const Divider(),
-                const SizedBox(
-                  height: 10,
-                ),
-                Slider(
-                  min: 0.0,
-                  max: 100.0,
-                  value: widget.timeSlider,
-                  divisions: 50,
-                  label: '${widget.timeSlider.round()}',
-                  onChanged: (value) {
-                    setState(() {
-                      widget.timeSlider = value;
-                    });
-                  },
-                  activeColor: const Color(0xffF55A00),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Calories',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                ),
-                const Divider(),
-                const SizedBox(
-                  height: 10,
-                ),
-                Slider(
-                  min: 0.0,
-                  max: 500,
-                  value: widget.caloriesSlider,
-                  divisions: 500,
-                  label: '${widget.caloriesSlider.round()}',
-                  onChanged: (value) {
-                    setState(() {
-                      widget.caloriesSlider = value;
-                    });
-                  },
-                  activeColor: const Color(0xffF55A00),
-                ),
-              ],
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Meal',
+              style: TextStyle(fontSize: 18.0),
             ),
-          ),
-          const SizedBox(
-            height: 60,
-          ),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  fixedSize: Size(400, 50), backgroundColor: Color(0xffF55A00)),
-              onPressed: widget.applyButton,
-              child: Text('Apply', style: TextStyle(color: Colors.white))),
-        ],
-      ),
-    );
+            Center(
+              child: Wrap(
+                spacing: 10.0,
+                children: MealTypes.values
+                    .map(
+                      (type) => FilterChip(
+                        side: const BorderSide(color: Colors.grey),
+                        backgroundColor: Colors.grey.shade300,
+                        selectedColor: Color(0xffF55A00),
+                        checkmarkColor: widget.filter.containsValue(type.name)
+                            ? Colors.white
+                            : Colors.transparent,
+                        label: Text(type.name,
+                            style: TextStyle(
+                                color: widget.filter.containsValue(type.name)
+                                    ? Colors.white
+                                    : Color(0xffF55A00))),
+                        selected: widget.filter.containsValue(type.name),
+                        onSelected: (selected) {
+                          setState(
+                            () {
+                              widget.filter["mealType"] =
+                                  selected ? type.name : "";
+                            },
+                          );
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Serving',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
+                  Slider(
+                    min: 0.0,
+                    max: 10.0,
+                    value: widget.servingvalue,
+                    divisions: 5,
+                    label: '${widget.servingvalue.round()}',
+                    onChanged: (value) {
+                      setState(() {
+                        widget.servingvalue = value;
+                      });
+                    },
+                    activeColor: const Color(
+                        0xffF55A00), // Sets the color of the active track
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Total Time',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Slider(
+                    min: 0.0,
+                    max: 300.0,
+                    value: widget.timevalue,
+                    divisions: 150,
+                    label: '${widget.timevalue.round()}',
+                    onChanged: (value) {
+                      setState(() {
+                        widget.timevalue = value;
+                      });
+                    },
+                    activeColor: const Color(0xffF55A00),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Calories',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Slider(
+                    min: 0.0,
+                    max: 500,
+                    value: widget.caloriesvalue,
+                    divisions: 500,
+                    label: '${widget.caloriesvalue.round()}',
+                    onChanged: (value) {
+                      setState(() {
+                        widget.caloriesvalue = value;
+                      });
+                    },
+                    activeColor: const Color(0xffF55A00),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 60,
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(400, 50),
+                    backgroundColor: const Color(0xffF55A00)),
+                onPressed: widget.apply,
+                child:
+                    const Text('Apply', style: TextStyle(color: Colors.white))),
+          ],
+        ));
   }
 }

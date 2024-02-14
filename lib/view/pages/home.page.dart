@@ -6,6 +6,7 @@ import 'package:recipes/view/pages/alle_recipes_page.dart';
 import 'package:recipes/view/pages/favourite_page.dart';
 import 'package:recipes/view/pages/filter/filter_page.dart';
 import 'package:recipes/view/pages/ingredients_page.dart';
+import 'package:recipes/view/pages/profile_page.dart';
 import 'package:recipes/view/pages/recentlyviewed_page.dart';
 import 'package:recipes/view/pages/setting.page.dart';
 
@@ -55,9 +56,16 @@ class _HomePageState extends State<HomePage> {
                   "${FirebaseAuth.instance.currentUser!.email}",
                   style: const TextStyle(color: Colors.black, fontSize: 12),
                 ),
-                currentAccountPicture: const CircleAvatar(
-                    radius: 80,
-                    backgroundImage: AssetImage('assets/images/avatar.png')),
+                currentAccountPicture: InkWell(
+                  onTap: () {
+                    controller.close?.call();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ProfilePage()));
+                  },
+                  child: const CircleAvatar(
+                      radius: 80,
+                      backgroundImage: AssetImage('assets/images/avatar.png')),
+                ),
               ),
               ListTile(
                 onTap: () {

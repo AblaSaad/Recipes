@@ -101,6 +101,9 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

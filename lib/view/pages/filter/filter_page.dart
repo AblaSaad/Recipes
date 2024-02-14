@@ -14,9 +14,9 @@ class FilterPage extends StatefulWidget {
 
 class _FilterPageState extends State<FilterPage> {
   Map<String, dynamic> filter = {};
-  double servingSlider = 0.0;
-  double timeSlider = 0;
-  double caloriesSlider = 0.0;
+  double servingvalue = 0.0;
+  double timevalue = 0;
+  double caloriesvalue = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +33,9 @@ class _FilterPageState extends State<FilterPage> {
                     Provider.of<RecipesProvider>(context, listen: false);
 
                     filter.clear();
-                    servingSlider = 0.0;
-                    timeSlider = 0.0;
-                    caloriesSlider = 0.0;
+                    servingvalue = 0.0;
+                    timevalue = 0.0;
+                    caloriesvalue = 0.0;
                   },
                 );
               },
@@ -56,13 +56,13 @@ class _FilterPageState extends State<FilterPage> {
             filteredRecipes.filteredList == null
                 ? DefaultFilterState(
                     filter: filter,
-                    applyButton: () async {
+                    apply: () async {
                       Provider.of<RecipesProvider>(context, listen: false)
                           .getFilteredRecipes();
                     },
-                    servingSlider: servingSlider,
-                    caloriesSlider: caloriesSlider,
-                    timeSlider: timeSlider)
+                    servingvalue: servingvalue,
+                    caloriesvalue: caloriesvalue,
+                    timevalue: timevalue)
                 : filteredRecipes.filteredList!.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(
