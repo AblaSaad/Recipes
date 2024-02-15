@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recipes/provider/recipes_provider.dart';
 import 'package:recipes/services/meal_service.dart';
 
 // ignore: must_be_immutable
